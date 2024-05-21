@@ -38,6 +38,6 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-compilejava{
+compileJava{
     options.compilerArgs += ['--enable-preview']
 }
