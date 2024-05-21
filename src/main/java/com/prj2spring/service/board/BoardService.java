@@ -22,9 +22,11 @@ public class BoardService {
         if (board.getTitle() == null || board.getTitle().isBlank()) {
             return false;
         }
+
         if (board.getContent() == null || board.getContent().isBlank()) {
             return false;
         }
+
         if (board.getWriter() == null || board.getWriter().isBlank()) {
             return false;
         }
@@ -33,5 +35,9 @@ public class BoardService {
 
     public List<Board> list() {
         return mapper.selectAll();
+    }
+
+    public Board get(Integer id) {
+        return mapper.selectById(id);
     }
 }
