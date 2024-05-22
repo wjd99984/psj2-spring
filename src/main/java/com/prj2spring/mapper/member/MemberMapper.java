@@ -42,6 +42,7 @@ public interface MemberMapper {
     @Select("""
             SELECT id,
                    email,
+                password,
                    nick_name,
                    inserted
             FROM member
