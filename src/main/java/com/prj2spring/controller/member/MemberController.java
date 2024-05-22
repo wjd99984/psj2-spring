@@ -14,13 +14,17 @@ public class MemberController {
     final MemberService service;
 
     @PostMapping("signup")
-    public void signup(@RequestBody Member member) {
-        service.add(member);
+    public ResponseEntity signup(@RequestBody Member member) {
+        if (service.validate(member)) {
+            service.add(member);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping(value = "check", params = "email")
     public ResponseEntity checkEmail(@RequestParam("email") String email) {
-        System.out.println("email = " + email);
         Member member = service.getByEmail(email);
         if (member == null) {
             return ResponseEntity.notFound().build();
@@ -30,13 +34,10 @@ public class MemberController {
 
     @GetMapping(value = "check", params = "nickName")
     public ResponseEntity checkNickName(@RequestParam("nickName") String nickName) {
-        System.out.println("nickName = " + nickName);
         Member member = service.getByNickName(nickName);
         if (member == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(nickName);
     }
-
-
 }
