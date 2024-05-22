@@ -27,3 +27,7 @@ CREATE TABLE member
 
 SELECT *
 FROM member;
+
+
+
+
