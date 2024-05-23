@@ -10,12 +10,14 @@ public class Member {
     private Integer id;
     private String email;
     private String password;
+    private String oldPassword;
     private String nickName;
     private LocalDateTime inserted;
 
     public String getSignupDateAndTime() {
-        DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("yyyy년MM월dd일 HH시mm분ss초");
+        DateTimeFormatter formatter
+                = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초");
+
         return inserted.format(formatter);
     }
 }

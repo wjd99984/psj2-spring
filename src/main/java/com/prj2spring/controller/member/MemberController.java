@@ -59,7 +59,6 @@ public class MemberController {
         }
     }
 
-
     @DeleteMapping("{id}")
     public ResponseEntity delete(@RequestBody Member member) {
         if (service.hasAccess(member)) {
@@ -67,6 +66,17 @@ public class MemberController {
             return ResponseEntity.ok().build();
         }
 
+        // todo: forbidden으로 수정하기
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @PutMapping("modify")
+    public ResponseEntity modify(@RequestBody Member member) {
+        if (service.hasAccessModify(member)) {
+            service.modify(member);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 }
