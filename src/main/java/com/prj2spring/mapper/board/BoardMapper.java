@@ -9,15 +9,17 @@ import java.util.List;
 public interface BoardMapper {
 
     @Insert("""
-            INSERT INTO board (title, content, writer)
-            VALUES (#{title}, #{content}, #{writer})
+            INSERT INTO board (title, content, member_id)
+            VALUES (#{title}, #{content}, #{memberId})
             """)
     public int insert(Board board);
 
     @Select("""
-            SELECT id, title, writer, inserted
-            FROM board
-            ORDER BY id DESC
+            SELECT b.id, 
+                   b.title,
+                   m.nick_name writer
+            FROM board b JOIN member m ON b.member_id = m.id
+            ORDER BY b.id DESC
             """)
     List<Board> selectAll();
 
@@ -29,15 +31,17 @@ public interface BoardMapper {
     Board selectById(Integer id);
 
     @Delete("""
-                DELETE FROM board
-                WHERE id = #{id}
+            DELETE FROM board
+            WHERE id = #{id}
             """)
     int deleteById(Integer id);
 
     @Update("""
-                UPDATE  board
-                SET title=#{title}, content=#{content}, writer=#{writer}
-                WHERE id=#{id}
+            UPDATE board
+            SET title=#{title},
+                content=#{content},
+                writer=#{writer}
+            WHERE id=#{id}
             """)
     int update(Board board);
 }
