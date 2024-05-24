@@ -62,7 +62,13 @@ public class BoardController {
     }
 
     @PutMapping("edit")
-    public ResponseEntity edit(@RequestBody Board board) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity edit(@RequestBody Board board,
+                               Authentication authentication) {
+        if (!service.hasAccess(board.getId(), authentication)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         if (service.validate(board)) {
             service.edit(board);
             return ResponseEntity.ok().build();
