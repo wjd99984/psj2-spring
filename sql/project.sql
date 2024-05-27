@@ -74,7 +74,7 @@ CREATE TABLE authority
 );
 
 INSERT INTO authority (member_id, name)
-VALUES (19, 'admin');
+VALUES (17, 'admin');
 
 
 # 게시물 여러개 입력
