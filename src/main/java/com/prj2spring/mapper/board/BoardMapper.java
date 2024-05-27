@@ -29,7 +29,7 @@ public interface BoardMapper {
                    b.content,
                    b.inserted,
                    m.nick_name writer,
-                    b.member_id
+                   b.member_id
             FROM board b JOIN member m ON b.member_id = m.id
             WHERE b.id = #{id}
             """)
@@ -42,7 +42,7 @@ public interface BoardMapper {
     int deleteById(Integer id);
 
     @Update("""
-             UPDATE board
+            UPDATE board
             SET title=#{title},
                 content=#{content}
             WHERE id=#{id}
@@ -54,4 +54,14 @@ public interface BoardMapper {
             WHERE member_id=#{memberId}
             """)
     int deleteByMemberId(Integer memberId);
+
+    @Select("""
+            SELECT b.id, 
+                   b.title,
+                   m.nick_name writer
+            FROM board b JOIN member m ON b.member_id = m.id
+            ORDER BY b.id DESC
+            LIMIT #{offset}, 10
+            """)
+    List<Board> selectAllPaging(Integer offset);
 }

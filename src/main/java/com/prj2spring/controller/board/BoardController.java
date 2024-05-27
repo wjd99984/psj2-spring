@@ -32,8 +32,9 @@ public class BoardController {
     }
 
     @GetMapping("list")
-    public List<Board> list() {
-        return service.list();
+    public List<Board> list(@RequestParam(defaultValue = "1") Integer page) {
+        System.out.println("page = " + page);
+        return service.list(page);
     }
 
     // /api/board/5
@@ -51,14 +52,13 @@ public class BoardController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Object> delete(@PathVariable Integer id,
-                                         Authentication authentication) {
+    public ResponseEntity delete(@PathVariable Integer id
+            , Authentication authentication) {
         if (service.hasAccess(id, authentication)) {
             service.remove(id);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-
     }
 
     @PutMapping("edit")
