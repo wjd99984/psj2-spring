@@ -87,6 +87,28 @@ SELECT COUNT(*)
 FROM board;
 
 
+SELECT *
+FROM member;
+
+UPDATE member
+SET nick_name = '동글'
+WHERE id = 17;
+
+UPDATE member
+SET nick_name = '끼얏'
+WHERE id = 19;
+
+UPDATE board
+SET member_id = 17
+WHERE id % 2 = 0;
+
+UPDATE board
+SET member_id = 19
+WHERE id % 2 = 1;
+
+
+
+
 
 
 
