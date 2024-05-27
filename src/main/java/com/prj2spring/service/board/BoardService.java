@@ -35,7 +35,7 @@ public class BoardService {
         return true;
     }
 
-    public Map<String, Object> list(Integer page) {
+    public Map<String, Object> list(Integer page, String searchType, String keyword) {
         Map pageInfo = new HashMap();
         Integer countAll = mapper.countAll();
 
@@ -44,14 +44,17 @@ public class BoardService {
         Integer leftPageNumber = (page - 1) / 10 * 10 + 1;
         Integer rightPageNumber = leftPageNumber + 9;
         rightPageNumber = Math.min(rightPageNumber, lastPageNumber);
-        Integer prevPageNUmber = leftPageNumber - 1;
-        Integer nextPageNUmber = rightPageNumber + 1;
+        leftPageNumber = rightPageNumber - 9;
+        leftPageNumber = Math.max(leftPageNumber, 1);
+        Integer prevPageNumber = leftPageNumber - 1;
+        Integer nextPageNumber = rightPageNumber + 1;
 
-        if (prevPageNUmber > 0) {
-            pageInfo.put("prevPageNumber", prevPageNUmber);
+        //  이전,처음,다음,맨끝 버튼 만들기
+        if (prevPageNumber > 0) {
+            pageInfo.put("prevPageNumber", prevPageNumber);
         }
-        if (nextPageNUmber <= lastPageNumber) {
-            pageInfo.put("nextPageNumber", nextPageNUmber);
+        if (nextPageNumber <= lastPageNumber) {
+            pageInfo.put("nextPageNumber", nextPageNumber);
         }
         pageInfo.put("currentPageNumber", page);
         pageInfo.put("lastPageNumber", lastPageNumber);
@@ -59,7 +62,7 @@ public class BoardService {
         pageInfo.put("rightPageNumber", rightPageNumber);
 
         return Map.of("pageInfo", pageInfo,
-                "boardList", mapper.selectAllPaging(offset));
+                "boardList", mapper.selectAllPaging(offset, searchType, keyword));
     }
 
     public Board get(Integer id) {

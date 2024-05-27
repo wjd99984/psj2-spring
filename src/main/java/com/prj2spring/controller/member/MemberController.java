@@ -53,6 +53,7 @@ public class MemberController {
         return service.list();
     }
 
+
     @GetMapping("{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity get(@PathVariable Integer id,
