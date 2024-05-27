@@ -65,3 +65,14 @@ FROM member
 WHERE email = '냐옹';
 
 
+# 권한 테이블
+CREATE TABLE authority
+(
+    member_id INT         NOT NULL REFERENCES member (id),
+    name      VARCHAR(20) NOT NULL,
+    PRIMARY KEY (member_id, name)
+);
+
+INSERT INTO authority (member_id, name)
+VALUES (19, 'admin');
+
