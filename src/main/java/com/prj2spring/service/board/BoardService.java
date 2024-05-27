@@ -41,9 +41,22 @@ public class BoardService {
 
         Integer offset = (page - 1) * 10;
         Integer lastPageNumber = (countAll - 1) / 10 + 1;
+        Integer leftPageNumber = (page - 1) / 10 * 10 + 1;
+        Integer rightPageNumber = leftPageNumber + 9;
+        rightPageNumber = Math.min(rightPageNumber, lastPageNumber);
+        Integer prevPageNUmber = leftPageNumber - 1;
+        Integer nextPageNUmber = rightPageNumber + 1;
 
+        if (prevPageNUmber > 0) {
+            pageInfo.put("prevPageNumber", prevPageNUmber);
+        }
+        if (nextPageNUmber <= lastPageNumber) {
+            pageInfo.put("nextPageNumber", nextPageNUmber);
+        }
         pageInfo.put("currentPageNumber", page);
         pageInfo.put("lastPageNumber", lastPageNumber);
+        pageInfo.put("leftPageNumber", leftPageNumber);
+        pageInfo.put("rightPageNumber", rightPageNumber);
 
         return Map.of("pageInfo", pageInfo,
                 "boardList", mapper.selectAllPaging(offset));
