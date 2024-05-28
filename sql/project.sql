@@ -130,7 +130,11 @@ CREATE TABLE board_file
     board_id INT          NOT NULL REFERENCES board (id),
     name     VARCHAR(500) NOT NULL,
     PRIMARY KEY (board_id, name)
-)
+);
+
+SELECT *
+FROM board_file;
+
 
 
 
