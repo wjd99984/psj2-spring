@@ -12,6 +12,7 @@ public interface BoardMapper {
             INSERT INTO board (title, content, member_id)
             VALUES (#{title}, #{content}, #{memberId})
             """)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     public int insert(Board board);
 
     @Select("""
@@ -84,24 +85,30 @@ public interface BoardMapper {
             """)
     Integer countAll();
 
-    @Select("""
 
+    @Select("""
             <script>
-                        SELECT COUNT(b.id)
-                        FROM board b JOIN member m ON b.member_id = m.id
-                           <trim prefix="WHERE" prefixOverrides="OR">
-                               <if test="searchType != null">
-                                   <bind name="pattern" value="'%' + keyword + '%'" />
-                                   <if test="searchType == 'all' || searchType == 'text'">
-                                       OR b.title LIKE #{pattern}
-                                       OR b.content LIKE #{pattern}
-                                   </if>
-                                   <if test="searchType == 'all' || searchType == 'nickName'">
-                                       OR m.nick_name LIKE #{pattern}
-                                   </if>
-                               </if>
-                           </trim>
-                        </script>
+            SELECT COUNT(b.id)
+            FROM board b JOIN member m ON b.member_id = m.id
+               <trim prefix="WHERE" prefixOverrides="OR">
+                   <if test="searchType != null">
+                       <bind name="pattern" value="'%' + keyword + '%'" />
+                       <if test="searchType == 'all' || searchType == 'text'">
+                           OR b.title LIKE #{pattern}
+                           OR b.content LIKE #{pattern}
+                       </if>
+                       <if test="searchType == 'all' || searchType == 'nickName'">
+                           OR m.nick_name LIKE #{pattern}
+                       </if>
+                   </if>
+               </trim>
+            </script>
             """)
     Integer countAllWithSearch(String searchType, String keyword);
+
+    @Insert("""
+            INSERT INTO board_file (board_id, name)
+            VALUES (#{boardId}, #{name})
+            """)
+    int insertFileName(Integer boardId, String name);
 }

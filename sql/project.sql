@@ -125,6 +125,14 @@ WHERE id % 3 = 2;
 SELECT *
 FROM board;
 
+CREATE TABLE board_file
+(
+    board_id INT          NOT NULL REFERENCES board (id),
+    name     VARCHAR(500) NOT NULL,
+    PRIMARY KEY (board_id, name)
+)
+
+
 
 
 
