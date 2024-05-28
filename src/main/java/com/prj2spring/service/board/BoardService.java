@@ -93,15 +93,34 @@ public class BoardService {
 
     public Board get(Integer id) {
         Board board = mapper.selectById(id);
-        List<String> fileNames = mapper.selectFileNNameByBoardId(id);
+        List<String> fileNames = mapper.selectFileNameByBoardId(id);
         List<String> imageSrcList = fileNames.stream()
                 .map(name -> STR."http://172.30.1.55:8888/\{id}/\{name}")
                 .toList();
+
+        board.setImageSrcList(imageSrcList);
         return board;
     }
 
     public void remove(Integer id) {
+        //file 명 조회
+        List<String> fileNames = mapper.selectFileNameByBoardId(id);
 
+        //disk 에있는 file
+        String dir = STR."C:/Temp/prj2/\{id}/";
+        for (String fileName : fileNames) {
+            File file = new File(dir + fileName);
+            file.delete();
+        }
+        File dirFile = new File(dir);
+        if (dirFile.exists()) {
+            dirFile.delete();
+        }
+
+        //board_file
+        mapper.deleteFileByBoardId(id);
+
+        //board
         mapper.deleteById(id);
     }
 
