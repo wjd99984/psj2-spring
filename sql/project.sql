@@ -133,8 +133,8 @@ CREATE TABLE board_file
 );
 
 SELECT *
-FROM board_file;
-
+FROM board_file
+WHERE board_id = 3;
 
 
 
