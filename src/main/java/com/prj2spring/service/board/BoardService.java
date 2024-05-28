@@ -1,6 +1,7 @@
 package com.prj2spring.service.board;
 
 import com.prj2spring.domain.board.Board;
+import com.prj2spring.domain.board.BoardFile;
 import com.prj2spring.mapper.board.BoardMapper;
 import com.prj2spring.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -94,19 +95,21 @@ public class BoardService {
     public Board get(Integer id) {
         Board board = mapper.selectById(id);
         List<String> fileNames = mapper.selectFileNameByBoardId(id);
-        List<String> imageSrcList = fileNames.stream()
-                .map(name -> STR."http://172.30.1.55:8888/\{id}/\{name}")
+        // http://172.30.1.57:8888/{id}/{name}
+        List<BoardFile> files = fileNames.stream()
+                .map(name -> new BoardFile(name, STR."http://172.30.1.57:8888/\{id}/\{name}"))
                 .toList();
 
-        board.setImageSrcList(imageSrcList);
+        board.setFiles(files);
+
         return board;
     }
 
     public void remove(Integer id) {
-        //file 명 조회
+        // file 명 조회
         List<String> fileNames = mapper.selectFileNameByBoardId(id);
 
-        //disk 에있는 file
+        // disk 에 있는 file
         String dir = STR."C:/Temp/prj2/\{id}/";
         for (String fileName : fileNames) {
             File file = new File(dir + fileName);
@@ -117,10 +120,10 @@ public class BoardService {
             dirFile.delete();
         }
 
-        //board_file
+        // board_file
         mapper.deleteFileByBoardId(id);
 
-        //board
+        // board
         mapper.deleteById(id);
     }
 
