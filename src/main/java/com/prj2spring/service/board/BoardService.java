@@ -137,7 +137,7 @@ public class BoardService {
         mapper.deleteFileByBoardId(id);
 
         //board like
-        mapper.deletelikeByBoardId(id);
+        mapper.deleteLikeByBoardId(id);
 
         // board
         mapper.deleteById(id);
