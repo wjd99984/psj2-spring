@@ -86,4 +86,12 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("like")
+    @PreAuthorize("isAuthenticated()")
+    public Map<String, Object> like(@RequestBody Map<String, Object> req,
+                                    Authentication authentication) {
+
+        return service.like(req, authentication);
+    }
 }
