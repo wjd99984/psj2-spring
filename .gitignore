@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/resources/secret/
+/src/main/resources/static/
+/src/main/resources/static/
+/src/main/resources/static/
