@@ -3,6 +3,7 @@ package com.prj2spring.service.board;
 import com.prj2spring.domain.board.Board;
 import com.prj2spring.domain.board.BoardFile;
 import com.prj2spring.mapper.board.BoardMapper;
+import com.prj2spring.mapper.comment.CommentMapper;
 import com.prj2spring.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class BoardService {
     private final BoardMapper mapper;
     private final MemberMapper memberMapper;
+    private final CommentMapper commentMapper;
 
     public void add(Board board, MultipartFile[] files, Authentication authentication) throws IOException {
         board.setMemberId(Integer.valueOf(authentication.getName()));
@@ -138,6 +140,9 @@ public class BoardService {
 
         //board like
         mapper.deleteLikeByBoardId(id);
+
+        // comment
+        commentMapper.deleteByBoardId(id);
 
         // board
         mapper.deleteById(id);

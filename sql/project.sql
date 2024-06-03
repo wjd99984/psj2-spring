@@ -155,7 +155,15 @@ CREATE TABLE comment
 );
 
 SELECT *
-FROM comment
+FROM comment;
+
+
+
+DESC board;
+INSERT INTO board
+    (title, content, member_id)
+SELECT title, content, member_id
+FROM board;
 
 
 

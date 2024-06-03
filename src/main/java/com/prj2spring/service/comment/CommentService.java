@@ -26,7 +26,6 @@ public class CommentService {
         return mapper.selectAllByBoardId(boardId);
     }
 
-
     public boolean validate(Comment comment) {
         if (comment == null) {
             return false;
@@ -45,5 +44,21 @@ public class CommentService {
 
     public void remove(Comment comment) {
         mapper.deleteById(comment.getId());
+    }
+
+    public boolean hasAccess(Comment comment, Authentication authentication) {
+        Comment db = mapper.selectById(comment.getId());
+        if (db == null) {
+            return false;
+        }
+
+        if (!authentication.getName().equals(db.getMemberId().toString())) {
+            return false;
+        }
+        return true;
+    }
+
+    public void update(Comment comment) {
+        mapper.update(comment);
     }
 }
